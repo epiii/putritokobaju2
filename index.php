@@ -2,7 +2,7 @@
 include 'koneksi.php';
 include 'cek.php';
 
-// el
+// epi
 include 'lib/fungsi.php';
 // pr($_SESSION);
 //include 'statistik.php';
@@ -50,9 +50,14 @@ include 'lib/fungsi.php';
 
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <!-- el -->
-            <h4 class="pull-right " style="color:grey;margin:10px;"><?php echo $_SESSION['nama'].'('.$_SESSION['akses'].' '.$_SESSION['toko'].')';?></h4>
-            <!-- eof : el -->
+            <!-- epi -->
+            <h4 class="pull-right " style="color:grey;margin:10px;"><?php
+              echo $_SESSION['nama'].'(
+                '.$_SESSION['akses'].'
+                '.(!is_null($_SESSION['toko'])?' toko '.$_SESSION['toko']:'').'
+              )';
+            ?></h4>
+            <!-- eof : epi -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
