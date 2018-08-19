@@ -1,9 +1,12 @@
 <?php session_start();
 include 'koneksi.php';
 include 'cek.php';
+
+// el
 include 'lib/fungsi.php';
 // pr($_SESSION);
 //include 'statistik.php';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,7 +50,9 @@ include 'lib/fungsi.php';
 
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <!-- el -->
             <h4 class="pull-right " style="color:grey;margin:10px;"><?php echo $_SESSION['nama'].'('.$_SESSION['akses'].' '.$_SESSION['toko'].')';?></h4>
+            <!-- eof : el -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
