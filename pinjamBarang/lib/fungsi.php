@@ -5,9 +5,7 @@
     echo "<pre>";
       print_r($par);
     echo"</pre>";
-    exit();
-  }
-
+    exit();  }
   function vd($par) {
     echo "<pre>";
       var_dump($par);
@@ -69,25 +67,6 @@
     return $out;
   }
 
-  function getStokBarang($jenisBarang,$merk,$ukuran,$toko){
-      global $con;
-      $s='SELECT jumlah
-          FROM barang
-          WHERE
-            jenisBarang="'.$jenisBarang.'"
-            AND merk="'.$merk.'"
-            AND ukuran="'.$ukuran.'"
-            AND toko="'.$toko.'"
-            ';
-      $e=mysqli_query($con,$s);
-      // vd($e);
-      $r=mysqli_fetch_assoc($e);
-      return [
-        'status'=>$e?'success':'failed to load data',
-        'data'  =>$r['jumlah']
-      ];
-  }
-
   function getNotifPeminjaman($tipe,$toko,$durasi){
     global $con;
     $s = 'SELECT
@@ -96,7 +75,6 @@
               status,
               toko1,
               toko2,
-              ukuran,
               merk,
               ukuran,
               jumlah,
@@ -105,7 +83,8 @@
               date(tglPinjam)tgl_pinjam,
               curdate() tgl_skrg,
               abs(datediff(date(tglPinjam),date(curdate()))) selisih_hari
-          FROM pinjam
+          FROM
+              pinjam
           WHERE
               '.($tipe=='meminjam'?'toko2 = "'.$toko.'"':'toko1= "'.$toko.'"').'
               AND status="'.($tipe=='meminjam'?'approved':'pending').'"
@@ -120,7 +99,6 @@
 
     while ($r=mysqli_fetch_assoc($e)) {
       // data-title="konfirmasi"
-      // pr($stok);
       if($tipe=='meminjam'){
         $color = 'success';
         $detailInfo = 'Toko <strong>'.$r['toko1'].'</strong> telah menyediakan barang dengan';
@@ -128,8 +106,8 @@
             data-toggle="modal"
             data-target="#confirmModal"
             onclick="ambilBarang('.$r['idPinjam'].')"
-            merk="'.$r['merk'].'"
-            ukuran="'.$r['ukuran'].'"
+            merk="'.$r['merk'].'",
+            ukuran="'.$r['ukuran'].'",
             jumlah="'.$r['jumlah'].'"
             data-message="Anda yakin sudah mengambil
               (
@@ -143,9 +121,7 @@
               ambil
             </a>';
       }
-      else { // dipinjam
-        $stok =  getStokBarang($r['jenisBarang'],$r['merk'],$r['ukuran'],$toko);
-        // pr($stok);
+      else {
         $color = 'warning';
         $detailInfo = 'Toko <strong>'.$r['toko2'].'</strong> ingin meminjam';
         $button = '<a href="#" class="btn btn-xs btn-warning pull-rightx float-right"
@@ -153,12 +129,10 @@
             data-toggle="modal"
             data-target="#formModal"
             onclick="formSediakanBarang('.$r['idPinjam'].')"
-            jenisBarang="'.$r['jenisBarang'].'"
-            merk="'.$r['merk'].'"
-            ukuran="'.$r['ukuran'].'"
+            jenisBarang="'.$r['jenisBarang'].'",
+            merk="'.$r['merk'].'",
+            ukuran="'.$r['ukuran'].'",
             jumlah="'.$r['jumlah'].'"
-            toko="'.$r['toko2'].'"
-            stok="'.$stok['data'].'"
             >
               sediakan
             </a>

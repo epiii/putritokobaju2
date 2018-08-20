@@ -1,7 +1,7 @@
 <?php
 session_start();
 include '../koneksi.php';
-include '../lib/fungsi.php';
+// include '../lib/fungsi.php';
 //include '../cek.php';
 // include 'lib/lib.php';
 $tokopinjam=$_SESSION['toko'];
@@ -29,11 +29,6 @@ $tokopinjam=$_SESSION['toko'];
 		background: url(pinjamBarang/assets/images/loading.gif) center no-repeat #fff;
 		opacity: 0.7;
 	}
-
-	.danger-text{
-		color:red;
-		font-weight: bold;
-	}
 	</style>
 
 	<body>
@@ -44,12 +39,45 @@ $tokopinjam=$_SESSION['toko'];
 		</div>
 		<!-- /.col-lg-12 -->
 	  </div>
-		<div class="pageLoader"></div>
+		<!-- <div class="pageLoader"></div> -->
 		<br />
+
+		<?php
+			// $jenisBarangList = getDistinctList('barang','jenisBarang','');
+			// vd($jenisBaranglist['status']);
+		?>
 
 			<div class="card">
 				<div class="card-body">
-					<form method="post" onsubmit="savePinjam(); return false;" xaction="?act=prosesPinjam">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>jenis</th>
+							<th>merk</th>
+							<th>ukuran</th>
+							<th>toko</th>
+							<th>jumlah</th>
+						</tr>
+						<tr>
+							<th>
+								<select name="jenisBarangS" id="jenisBarangS">
+								</select>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+
+
+					<form method="post" action="?act=prosesPinjam">
 						<?php
 							$sql  = 'SELECT DISTINCT(jenisBarang) FROM barang order by jenisBarang asc';
 							$exe  = mysqli_query($con,$sql);
@@ -86,19 +114,18 @@ $tokopinjam=$_SESSION['toko'];
 						<div class="form-group row">
 							<label for="toko" class="col-sm-2 col-form-label">Asal Toko</label>
 							<div class="col-sm-10">
-							<select required onchange="stoksekarang(this.value);" class="form-control" id="tokocombo" name="tokocombo">
+							<select required onchange="getCurrentStock();" class="form-control" id="tokocombo" name="tokocombo">
 								<option value="" selected>- Pilih Asal Toko -</option>
 							</select>
 							</div>
 						</div>
-						<div id="jumlahDiv" class="form-group row">
+						<div class="form-group row">
 							<label for="jumlah" class="col-sm-2 col-form-label">Jumlah Pinjam</label>
 							<div class="col-sm-10">
 							<!-- epi -->
-								<input type="hidden" id="stokH">
-								<input type="number" min="0"  id="jumlah" onkeyup="validasijumlah(this.value);return false;" required class="form-control" name="jumlah" placeholder="Masukkan Jumlah Barang yang akan di pinjam"/>
-								<span class="glyphicon glyphicon-remove form-control-feedback"></span>
-								<span id="warningJumlah" style="display:none;color:red;"></span>
+								<!-- <input type="text" id="stokH"> -->
+								<input type="number" xonkeyup="getCurrentStock(this.value);return false;" required class="form-control" name="jumlah" placeholder="Masukkan Jumlah Barang yang akan di pinjam"/>
+								<!-- <span id="warningJumlah" styke="display:none;color:red;"></span> -->
 							<!-- eof : epi -->
 								<!-- <input type="text" class="form-control" name="jumlah" placeholder="Masukkan Jumlah Barang yang akan di pinjam"/> -->
 							</div>
@@ -126,47 +153,6 @@ $tokopinjam=$_SESSION['toko'];
 				$('.pageLoader').attr('style','display:none');
 			}, 700);
 		});
-
-		var validForm=false;
-		// function isValidForm() {
-		// 	if (validForm) {
-		// 		console.log('valid');
-		// 		return true;
-		// 	}else {
-		// 		console.log('not valid');
-		// 		return false;
-		// 	}
-		// }
-
-		function savePinjam() {
-			if (validForm) {
-				$.ajax({
-					url:'pinjamBarang/proses.php',
-					data: $('form').serialize()
-					// {
-					// 	'mode':'combomerk',
-					// 	'jenis':jenis
-					// }
-					,
-					type:'post',
-					dataType:'json',
-					beforeSend:function () {
-						$('.pageLoader').removeAttr('style');
-					},success:function(ret){
-						setTimeout(function(){
-							$('.pageLoader').attr('style','display:none');
-							alert(ret.message);
-							if (ret.status) {
-								location.href='?act=riwayatPinjam';
-							}
-						}, 700);
-					}, error : function (xhr, status, errorThrown) {
-						$('.pageLoader').attr('style','display:none');
-								alert('error : ['+xhr.status+'] '+errorThrown);
-						}
-				});
-			}
-		}
 
 		function merkcb(jenis) {
 			$.ajax({
@@ -262,63 +248,35 @@ $tokopinjam=$_SESSION['toko'];
 			});
 		}
 
-		function stoksekarang(toko) {
-			$.ajax({
-				url:'pinjamBarang/action.php',
-				data:{
-					'mode':'stoksekarang',
-					'ukuran':$('#ukurancombo').val(),
-					'merk':$('#merkcombo').val(),
-					'jenis':$('#jeniscombo').val(),
-					'toko':toko,
-				}, type:'post',
-				dataType:'json',
-				beforeSend:function () {
-					$('.pageLoader').removeAttr('style');
-				},success:function(ret){
-					setTimeout(function(){
-						$('.pageLoader').attr('style','display:none');
-
-						$('#stokH').val(ret.returns.data);
-						if (ret.returns.data<=0) {
-							$('#warningJumlah').html('stok habis, silakan hubungi owner');
-							$('#jumlah').attr('disabled',true);
-						} else {
-							$('#jumlah').removeAttr('disabled');
-						}
-
-					}, 700);
-				}, error : function (xhr, status, errorThrown) {
-					$('.pageLoader').attr('style','display:none');
-			        alert('error : ['+xhr.status+'] '+errorThrown);
-			    }
-			});
-		}
-
-		function validasijumlah(jml) {
-			var stok = parseInt($('#stokH').val());
-			var jumlah = parseInt($('#jumlah').val());
-			if (jumlah>stok) {
-			// message
-				$('#warningJumlah').html('melebihi stok, max : '+stok);
-
-			// style
-				$('#jumlah').addClass('danger-text');
-				$('#jumlahDiv').addClass('has-error has-feedback');
-				$('#warningJumlah').removeAttr('style');
-				$('#warningJumlah').addClass('danger-text');
-				console.log('lebih');
-				validForm=false;
-			} else {
-			// style
-				$('#jumlah').removeClass('danger-text');
-				$('#jumlahDiv').removeClass('has-error has-feedback');
-				$('#warningJumlah').attr('style','display:none;');
-				$('#warningJumlah').removeClass('danger-text');
-				console.log('kurang');
-				validForm=true;
-			}
-		}
+		// function getCurrentStock() {
+		// 	$.ajax({
+		// 		url:'pinjamBarang/action.php',
+		// 		// data: $('form').serialize(),
+		// 		data:{
+		// 			'mode':'getCurrentStock',
+		// 			'ukuran':ukuran,
+		// 			'merk':merk,
+		// 			'jenis':jenis,
+		// 			'toko':toko
+		// 		},
+		// 		type:'post',
+		// 		dataType:'json',
+		// 		beforeSend:function () {
+		// 			$('.pageLoader').removeAttr('style');
+		// 		},success:function(ret){
+		// 			setTimeout(function(){
+		// 				$('.pageLoader').attr('style','display:none');
+		// 				$('#stokH').val(ret.data);
+		// 				// $('#warningJumlah').html('max '+ret.data);
+		// 				// $('#warningJumlah').removeAttr('style');
+		// 				// $('#warningJumlah').removeAttr('style');
+		// 			}, 700);
+		// 		}, error : function (xhr, status, errorThrown) {
+		// 			$('.pageLoader').attr('style','display:none');
+		// 	        alert('error : ['+xhr.status+'] '+errorThrown);
+		// 	    }
+		// 	});
+		// }
 	</script>
 
 </html>

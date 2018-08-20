@@ -134,6 +134,80 @@ include 'lib/fungsi.php';
             </div>
             <!-- /.navbar-static-side -->
         </nav>
+
+        <!-- confirmation Dialog -->
+        <div class="modal fade" id="confirmModal" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title "></h4>
+              </div>
+              <div class="modal-body">
+                <p>Are you sure about this ?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel">Batal</button>
+                <button type="button" style="display:none" class="btn btn-success" id="lanjutkanAmbil">Lanjutkan</button>
+                <button type="button" style="display:none"  class="btn btn-warning" id="lanjutkanTolak">Lanjutkan</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- form Dialog -->
+        <div class="modal fade" id="formModal" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+
+            <form class="" onsubmit="sediakanBarang();return false;">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                  <h4 class="modal-title "></h4>
+                </div>
+                <div class="modal-body">
+                <!-- <p>Are you sure about this ?</p> -->
+                  <table class="table table-bordered table-hover">
+                    <tbody>
+                      <tr>
+                        <th>jenis</th>
+                        <td id="jenisBarangTD">...</td>
+                      </tr>
+                      <tr>
+                        <th>merk</th>
+                        <td id="merkTD">...</td>
+                      </tr>
+                      <tr>
+                        <th>ukuran</th>
+                        <td id="ukuranTD">...</td>
+                      </tr>
+                      <tr>
+                        <th>jumlah (yang diminta)</th>
+                        <td id="jumlahTD">...</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <div class="form-group">
+                    <label>Stok (yg dipinjamkan)</label>
+                    <select class="form-control" name="">
+                      <option value="">Pilih</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                    </select>
+                    <small id="emailHelp" class="form-text text-muted red">We'll never share your email with anyone else.</small>
+                  </div>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                  <button type="button" class="btn btn-warning" id="lanjutkanForm">Lanjutkan</button>
+                </div>
+              </div>
+            </form>
+
+          </div>
+        </div>
 <?php
 	if(isset($_GET['act'])){
 		if ($_GET['act'] == "dashboard"){
