@@ -77,7 +77,6 @@
     <div class="modal-dialog">
 
         <div class="modal-content">
-					<!-- <form onsubmit="sediakanBarang();return false;"> -->
 	          <div class="modal-header">
 	            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 	            <h4 class="modal-title "></h4>
@@ -89,7 +88,7 @@
 
 	          <div class="modal-footer">
 	            <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-	            <button type="button" class="btn btn-warning" xonclick="sediakanBarang();return false;" id="lanjutkanForm">Lanjutkan</button>
+	            <button type="button" class="btn btn-warning" id="lanjutkanForm">Lanjutkan</button>
 	          </div>
 					<!-- </form> -->
 
@@ -298,7 +297,7 @@
 				 var jumlah = $('#sediakan_'+idPinjam).attr('jumlah');
 				 var toko = $('#sediakan_'+idPinjam).attr('toko');
 				 var stok = $('#sediakan_'+idPinjam).attr('stok');
-
+				 $('#idPinjam').val(idPinjam);
 				 // set value into form
 				 $('#jenisBarangTD').html(jenisBarang);
 				 $('#merkTD').html(merk);
@@ -316,7 +315,7 @@
 				 }
 
 				 $('.modal-body').html('');
-				 var formx ='<form xxonsubmit="sediakanBarang();return false;">'
+				 var formx ='<form id="sediakanForm">'
 				 +'<table class="table table-bordered table-hover">'
 				    +'<tbody>'
 				      +'<tr>'
@@ -342,11 +341,12 @@
 				     +'</tbody>'
 				   +'</table>'
 
-					 +'<input type="text" name="jenisBarang" value="'+jenisBarang+'" />'
-					 +'<input type="text" name="merk" value="'+merk+'" />'
-					 +'<input type="text" name="ukuran" value="'+ukuran+'" />'
-					 +'<input type="text" name="jumlah" value="'+jumlah+'" />'
-					 +'<input type="text" name="toko" value="'+toko+'" />'
+					 +'<input type="hidden" name="idPinjam" id="idPinjam" value="'+idPinjam+'" />'
+					 +'<input type="hidden" name="jenisBarang" value="'+jenisBarang+'" />'
+					 +'<input type="hidden" name="merk" value="'+merk+'" />'
+					 +'<input type="hidden" name="ukuran" value="'+ukuran+'" />'
+					 +'<input type="hidden" name="jumlah" value="'+jumlah+'" />'
+					 +'<input type="hidden" name="toko" value="'+toko+'" />'
 					 +'<div class="form-group">'
 						 +'<label>Jumlah (yang dipinjamkan)</label>'
 						 +'<select required id="jumlah_disetujui" name="jumlah_disetujui" class="form-control">'
@@ -357,8 +357,6 @@
 				 +'</form>'
 				 ;
 				 $('.modal-body').html(formx);
-				 // show form
-				 // $('#formModal').modal('show');
 			 }
 
 			 function ambilBarang(id) {
@@ -399,12 +397,9 @@
 			function sediakanBarang() {
 				 $('#lanjutkanForm').removeClass('btn-warning');
 				 $('#lanjutkanForm').addClass('btn-success');
-
-					// $('#lanjutkanForm').on('click',function(){
 						$.ajax({
 							url:'dashboardPenjaga/penjagaProses.php',
-							// cache:false,
-							data:$('form').serialize()+'&action=sediakan',
+							data:$('form#sediakanForm').serialize()+'&action=sediakan',
 							method:'post',
 							dataType:'json',
 							beforeSend:function () {
@@ -415,9 +410,14 @@
 									$('.pageLoader').attr('style','display:none');
 									if(dt.status!='success') alert(dt.status);
 									else { // else
+										var idPinjam = $('#idPinjam').val();
+					 				 // alert(idPinjam);
+
+
+
 										$('#formModal').modal('hide');
-										$('#idAlert_'+id).fadeOut('slow',function(){
-											$('#idAlert_'+id).remove();
+										$('#idAlert_'+idPinjam).fadeOut('slow',function(){
+											$('#idAlert_'+idPinjam).remove();
 										});
 									} // end of else
 								},700); // setTimeout

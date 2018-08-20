@@ -5,6 +5,7 @@ if (!isset($_POST['jumlah'])) {
 } else{
 	$out['isRequest']=true;
 	include '../koneksi.php';
+	include '../lib/fungsi.php';
 
 	$jenis = $_POST['jeniscombo'];
 	$merk = $_POST['merkcombo'];
@@ -49,7 +50,9 @@ if (!isset($_POST['jumlah'])) {
 				$sql = $sql."insert into $db.pinjam (pinjam.idPinjam,pinjam.kode,pinjam.ukuran,pinjam.jumlah,pinjam.toko1,pinjam.jenisBarang,pinjam.merk,pinjam.tglPinjam,pinjam.toko2)
 				values (NULL,'$kode','$ukuran','$jumlah','$tokoAsal','$jenis','$merk',NOW(),'$tokoPinjam');";
 
+				// pr($sql);
 				$query=mysqli_multi_query($con,$sql);
+
 				if($query){
 					$out['status']=true;
 					$out['message']='Berhasil di pesan, harap segera mengambil barangnya';
