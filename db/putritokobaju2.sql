@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
--- https://www.phpmyadmin.net/
+-- version 4.5.4.1deb2ubuntu2
+-- http://www.phpmyadmin.net
 --
--- Host: localhost:3306
--- Generation Time: Aug 09, 2018 at 11:42 PM
--- Server version: 5.7.19
--- PHP Version: 7.1.10
+-- Host: localhost
+-- Generation Time: Aug 20, 2018 at 09:50 AM
+-- Server version: 5.7.21-0ubuntu0.16.04.1
+-- PHP Version: 7.0.28-0ubuntu0.16.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -19,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `toko`
+-- Database: `putritokobaju2`
 --
 
 -- --------------------------------------------------------
@@ -70,15 +68,17 @@ CREATE TABLE `barang` (
 --
 
 INSERT INTO `barang` (`idBarang`, `kode`, `ukuran`, `jumlah`, `harga`, `jenisBarang`, `toko`, `merk`) VALUES
-(35, '3EL1SM', 'L', 13, 40000, 'kaos', 'A', 'Polo'),
+(35, '3EL1SM', 'L', 9, 40000, 'kaos', 'A', 'Polo'),
 (36, '3EL1SM', 'L', 27, 70000, 'kaos', 'D', 'Polo'),
-(37, '3EL1SM', 'XL', 11, 50000, 'kaos', 'A', 'Polo'),
-(38, 'JOCL21', 'M', 12, 50000, 'kaos', 'B', 'tshirt'),
-(39, 'W0E1RG', 'M', 50, 70000, 'batik', 'D', 'bateeq'),
-(40, 'W0E1RG', 'XL', 17, 90000, 'batik', 'D', 'bateeq'),
-(41, 'JOCL21', 'M', 8, 50000, 'kaos', 'A', 'tshirt'),
-(42, 'W0E1RG', 'XL', 4, 90000, 'batik', 'A', 'bateeq'),
-(43, 'W0E1RG', 'M', 10, 70000, 'batik', 'A', 'bateeq');
+(37, '3EL1SM', 'XL', 9, 50000, 'kaos', 'A', 'Polo'),
+(38, 'JOCL21', 'M', 0, 50000, 'kaos', 'B', 'tshirt'),
+(39, 'W0E1RG', 'M', 44, 70000, 'batik', 'D', 'bateeq'),
+(40, 'W0E1RG', 'XL', 4, 90000, 'batik', 'D', 'bateeq'),
+(41, 'JOCL21', 'M', 17, 50000, 'kaos', 'A', 'tshirt'),
+(42, 'W0E1RG', 'XL', 17, 90000, 'batik', 'A', 'bateeq'),
+(43, 'W0E1RG', 'M', 16, 70000, 'batik', 'A', 'bateeq'),
+(44, '3EL1SM', 'XL', 2, 50000, 'kaos', 'D', 'Polo'),
+(45, 'JOCL21', 'M', 3, 50000, 'kaos', 'D', 'tshirt');
 
 -- --------------------------------------------------------
 
@@ -118,6 +118,33 @@ CREATE TABLE `pinjam` (
   `kode` varchar(6) NOT NULL,
   `ukuran` varchar(8) DEFAULT NULL,
   `jumlah` int(6) NOT NULL,
+  `jumlah_disetujui` int(6) NOT NULL DEFAULT '0',
+  `toko1` varchar(10) NOT NULL,
+  `jenisBarang` varchar(40) NOT NULL,
+  `merk` varchar(30) NOT NULL,
+  `tglPinjam` datetime NOT NULL,
+  `toko2` varchar(10) NOT NULL,
+  `status` enum('pending','approved','taken') NOT NULL DEFAULT 'pending'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `pinjam`
+--
+
+INSERT INTO `pinjam` (`idPinjam`, `kode`, `ukuran`, `jumlah`, `jumlah_disetujui`, `toko1`, `jenisBarang`, `merk`, `tglPinjam`, `toko2`, `status`) VALUES
+(23, 'JOCL21', 'M', 3, 0, 'A', 'kaos', 'tshirt', '2018-08-20 09:37:32', 'D', 'pending');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pinjam__`
+--
+
+CREATE TABLE `pinjam__` (
+  `idPinjam` int(6) NOT NULL,
+  `kode` varchar(6) NOT NULL,
+  `ukuran` varchar(8) DEFAULT NULL,
+  `jumlah` int(6) NOT NULL,
   `toko1` varchar(10) NOT NULL,
   `jenisBarang` varchar(40) NOT NULL,
   `merk` varchar(30) NOT NULL,
@@ -126,14 +153,20 @@ CREATE TABLE `pinjam` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `pinjam`
+-- Dumping data for table `pinjam__`
 --
 
-INSERT INTO `pinjam` (`idPinjam`, `kode`, `ukuran`, `jumlah`, `toko1`, `jenisBarang`, `merk`, `tglPinjam`, `toko2`) VALUES
+INSERT INTO `pinjam__` (`idPinjam`, `kode`, `ukuran`, `jumlah`, `toko1`, `jenisBarang`, `merk`, `tglPinjam`, `toko2`) VALUES
 (5, 'JOCL21', 'M', 8, 'B', 'kaos', 'tshirt', '2018-08-09 22:59:37', 'A'),
 (6, 'W0E1RG', 'XL', 4, 'D', 'batik', 'bateeq', '2018-08-09 23:00:51', 'A'),
 (7, '3EL1SM', 'L', 2, 'A', 'kaos', 'Polo', '2018-08-09 23:11:02', 'D'),
-(8, 'W0E1RG', 'M', 10, 'D', 'batik', 'bateeq', '2018-08-09 23:17:45', 'A');
+(8, 'W0E1RG', 'M', 10, 'D', 'batik', 'bateeq', '2018-08-09 23:17:45', 'A'),
+(9, 'JOCL21', 'M', 9, 'B', 'kaos', 'tshirt', '2018-08-19 14:58:38', 'A'),
+(10, 'W0E1RG', 'M', 9, 'D', 'batik', 'bateeq', '2018-08-19 16:04:17', 'A'),
+(11, 'W0E1RG', 'M', 8, 'D', 'batik', 'bateeq', '2018-08-19 16:05:56', 'A'),
+(12, 'W0E1RG', 'M', 9, 'D', 'batik', 'bateeq', '2018-08-19 16:36:27', 'A'),
+(13, 'JOCL21', 'M', 3, 'B', 'kaos', 'tshirt', '2018-08-19 17:01:03', 'A'),
+(14, 'W0E1RG', 'M', 12, 'D', 'batik', 'bateeq', '2018-08-19 17:03:14', 'A');
 
 -- --------------------------------------------------------
 
@@ -193,6 +226,12 @@ ALTER TABLE `pinjam`
   ADD PRIMARY KEY (`idPinjam`);
 
 --
+-- Indexes for table `pinjam__`
+--
+ALTER TABLE `pinjam__`
+  ADD PRIMARY KEY (`idPinjam`);
+
+--
 -- Indexes for table `riwayat`
 --
 ALTER TABLE `riwayat`
@@ -207,32 +246,31 @@ ALTER TABLE `riwayat`
 --
 ALTER TABLE `akses`
   MODIFY `idAkses` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
 --
 -- AUTO_INCREMENT for table `barang`
 --
 ALTER TABLE `barang`
-  MODIFY `idBarang` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
-
+  MODIFY `idBarang` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 --
 -- AUTO_INCREMENT for table `penjualan`
 --
 ALTER TABLE `penjualan`
   MODIFY `idPenjualan` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
 --
 -- AUTO_INCREMENT for table `pinjam`
 --
 ALTER TABLE `pinjam`
-  MODIFY `idPinjam` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
+  MODIFY `idPinjam` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+--
+-- AUTO_INCREMENT for table `pinjam__`
+--
+ALTER TABLE `pinjam__`
+  MODIFY `idPinjam` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `riwayat`
 --
 ALTER TABLE `riwayat`
   MODIFY `idRiwayat` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
-COMMIT;
-
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

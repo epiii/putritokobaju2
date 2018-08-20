@@ -270,94 +270,163 @@
 					$('.pageLoader').attr('style','display:none');
 				}, 700);
 
-
-				$('body').on('hidden.bs.modal', '.modal', function () {
-					// $(this).removeData('bs.modal');
-			    // $(this).removeData("bs.modal").find(".modal-content").empty();
-					console.log();
-					// $('#formModal').find('.modal-content').html('');
-
-				// alert('hihi');
-	      });
+				// $('body').on('hidden.bs.modal', '.modal', function () {
+				// 	// $(this).removeData('bs.modal');
+			  //   // $(this).removeData("bs.modal").find(".modal-content").empty();
+				// 	console.log();
+				// 	// $('#formModal').find('.modal-content').html('');
+				//
+				// // alert('hihi');
+				//
+	      // });
 				$('#lanjutkanForm').on('click',sediakanBarang);
 			});
 
-			$('#confirmModal').on('show.bs.modal', function (e) {
-				 $message = $(e.relatedTarget).attr('data-message');
-				 $(this).find('.modal-body p').text($message);
-				 $title = $(e.relatedTarget).attr('data-title');
-				 $(this).find('.modal-title').text($title);
-		 	});
 
-			 function formSediakanBarang(idPinjam) {
-				 // get value
-				 var jenisBarang = $('#sediakan_'+idPinjam).attr('jenisBarang');
-				 var merk = $('#sediakan_'+idPinjam).attr('merk');
-				 var ukuran = $('#sediakan_'+idPinjam).attr('ukuran');
-				 var jumlah = $('#sediakan_'+idPinjam).attr('jumlah');
-				 var toko = $('#sediakan_'+idPinjam).attr('toko');
-				 var stok = $('#sediakan_'+idPinjam).attr('stok');
-				 $('#idPinjam').val(idPinjam);
-				 // set value into form
-				 $('#jenisBarangTD').html(jenisBarang);
-				 $('#merkTD').html(merk);
-				 $('#ukuranTD').html(ukuran);
-				 $('#jumlahTD').html(jumlah);
 
-				 var opt = '';
-				 for (var i = stok; i>0; i--) {
-					 opt+='<option '
-						 			+(i==jumlah?' selected ':'')
-									+(i>jumlah?' disabled ':'')
-									+' value="'+i+'">'
-									+i
-								+'</option>'
-				 }
+			function formSediakanBarang(idPinjam) {
+				// get value
+				var jenisBarang = $('#sediakan_'+idPinjam).attr('jenisBarang');
+				var merk = $('#sediakan_'+idPinjam).attr('merk');
+				var ukuran = $('#sediakan_'+idPinjam).attr('ukuran');
+				var jumlah = $('#sediakan_'+idPinjam).attr('jumlah');
+				var toko = $('#sediakan_'+idPinjam).attr('toko');
+				var stok = $('#sediakan_'+idPinjam).attr('stok');
+				$('#idPinjam').val(idPinjam);
+				// set value into form
+				$('#jenisBarangTD').html(jenisBarang);
+				$('#merkTD').html(merk);
+				$('#ukuranTD').html(ukuran);
+				$('#jumlahTD').html(jumlah);
 
-				 $('.modal-body').html('');
-				 var formx ='<form id="sediakanForm">'
-				 +'<table class="table table-bordered table-hover">'
-				    +'<tbody>'
-				      +'<tr>'
-				        +'<th>Toko</th>'
-				        +'<td>'+toko+'</td>'
-				       +'</tr>'
-				      +'<tr>'
-				        +'<th>Jenis</th>'
-				        +'<td>'+jenisBarang+'</td>'
-				       +'</tr>'
-				       +'<tr>'
-				         +'<th>Merk</th>'
-				         +'<td>'+merk+'</td>'
-				       +'</tr>'
-				       +'<tr>'
-				         +'<th>Ukuran</th>'
-				         +'<td>'+ukuran+'</td>'
-				       +'</tr>'
-				       +'<tr>'
-				         +'<th>Jumlah (yang diminta)</th>'
-				         +'<td>'+jumlah+'</td>'
-				       +'</tr>'
-				     +'</tbody>'
-				   +'</table>'
+				var opt = '';
+				for (var i = stok; i>0; i--) {
+					opt+='<option '
+								 +(i==jumlah?' selected ':'')
+								 +(i>jumlah?' disabled ':'')
+								 +' value="'+i+'">'
+								 +i
+							 +'</option>'
+				}
 
-					 +'<input type="hidden" name="idPinjam" id="idPinjam" value="'+idPinjam+'" />'
-					 +'<input type="hidden" name="jenisBarang" value="'+jenisBarang+'" />'
-					 +'<input type="hidden" name="merk" value="'+merk+'" />'
-					 +'<input type="hidden" name="ukuran" value="'+ukuran+'" />'
-					 +'<input type="hidden" name="jumlah" value="'+jumlah+'" />'
-					 +'<input type="hidden" name="toko" value="'+toko+'" />'
-					 +'<div class="form-group">'
-						 +'<label>Jumlah (yang dipinjamkan)</label>'
-						 +'<select required id="jumlah_disetujui" name="jumlah_disetujui" class="form-control">'
-							 +'<option value="">Pilih</option>'
-							 +opt
-						 +'</select>'
-					 +'</div>'
-				 +'</form>'
-				 ;
-				 $('.modal-body').html(formx);
-			 }
+				$('.modal-body').html('');
+				var formx ='<form id="sediakanForm">'
+				+'<table class="table table-bordered table-hover">'
+					 +'<tbody>'
+						 +'<tr>'
+							 +'<th>Toko</th>'
+							 +'<td>'+toko+'</td>'
+							+'</tr>'
+						 +'<tr>'
+							 +'<th>Jenis</th>'
+							 +'<td>'+jenisBarang+'</td>'
+							+'</tr>'
+							+'<tr>'
+								+'<th>Merk</th>'
+								+'<td>'+merk+'</td>'
+							+'</tr>'
+							+'<tr>'
+								+'<th>Ukuran</th>'
+								+'<td>'+ukuran+'</td>'
+							+'</tr>'
+							+'<tr>'
+								+'<th>Jumlah (yang diminta)</th>'
+								+'<td>'+jumlah+'</td>'
+							+'</tr>'
+						+'</tbody>'
+					+'</table>'
+
+					+'<input type="hidden" name="idPinjam" id="idPinjam" value="'+idPinjam+'" />'
+					+'<input type="hidden" name="jenisBarang" value="'+jenisBarang+'" />'
+					+'<input type="hidden" name="merk" value="'+merk+'" />'
+					+'<input type="hidden" name="ukuran" value="'+ukuran+'" />'
+					+'<input type="hidden" name="jumlah" value="'+jumlah+'" />'
+					+'<input type="hidden" name="toko" value="'+toko+'" />'
+					+'<div class="form-group">'
+						+'<label>Jumlah (yang dipinjamkan)</label>'
+						+'<select required id="jumlah_disetujui" name="jumlah_disetujui" class="form-control">'
+							+'<option value="">Pilih</option>'
+							+opt
+						+'</select>'
+					+'</div>'
+				+'</form>'
+				;
+				$('.modal-body').html(formx);
+			}
+
+
+			function formTolak(idPinjam) {
+		 	 // get value
+		 	 var jenisBarang = $('#sediakan_'+idPinjam).attr('jenisBarang');
+		 	 var merk = $('#sediakan_'+idPinjam).attr('merk');
+		 	 var ukuran = $('#sediakan_'+idPinjam).attr('ukuran');
+		 	 var jumlah = $('#sediakan_'+idPinjam).attr('jumlah');
+		 	 var toko = $('#sediakan_'+idPinjam).attr('toko');
+		 	 var stok = $('#sediakan_'+idPinjam).attr('stok');
+			 // set value into form
+		 	 $('.modal-body').val(idPinjam);
+
+			 // $('#confirmModal').on('show.bs.modal', function (e) {
+ 				 $message = $(e.relatedTarget).attr('data-message');
+ 				 $('#confirmModal.modal-body').html($message);
+ 				 // $('#confirmModal.modal-body').find('.modal-body p').text($message);
+ 				 // $title = $(e.relatedTarget).attr('data-title');
+ 				 // $(this).find('.modal-title').text($title);
+ 		 	// });
+
+			 Anda yakin menolak permintaan
+			 	(
+			 		'.$r['jumlah'].'
+			 		'.$r['jenisBarang'].',
+			 		merk '.$r['merk'].',
+			 		ukuran '.$r['ukuran'].'
+			 	) dr toko '.$r['toko2'].'
+			 ?"
+
+		 	 $('.modal-body').html('');
+		 	 var formx ='<form id="tolakForm">'
+		 	 +'<table class="table table-bordered table-hover">'
+		 			+'<tbody>'
+		 				+'<tr>'
+		 					+'<th>Toko</th>'
+		 					+'<td>'+toko+'</td>'
+		 				 +'</tr>'
+		 				+'<tr>'
+		 					+'<th>Jenis</th>'
+		 					+'<td>'+jenisBarang+'</td>'
+		 				 +'</tr>'
+		 				 +'<tr>'
+		 					 +'<th>Merk</th>'
+		 					 +'<td>'+merk+'</td>'
+		 				 +'</tr>'
+		 				 +'<tr>'
+		 					 +'<th>Ukuran</th>'
+		 					 +'<td>'+ukuran+'</td>'
+		 				 +'</tr>'
+		 				 +'<tr>'
+		 					 +'<th>Jumlah (yang diminta)</th>'
+		 					 +'<td>'+jumlah+'</td>'
+		 				 +'</tr>'
+		 			 +'</tbody>'
+		 		 +'</table>'
+
+		 		 +'<input type="hidden" name="idPinjam" id="idPinjam" value="'+idPinjam+'" />'
+		 		 +'<input type="hidden" name="jenisBarang" value="'+jenisBarang+'" />'
+		 		 +'<input type="hidden" name="merk" value="'+merk+'" />'
+		 		 +'<input type="hidden" name="ukuran" value="'+ukuran+'" />'
+		 		 +'<input type="hidden" name="jumlah" value="'+jumlah+'" />'
+		 		 +'<input type="hidden" name="toko" value="'+toko+'" />'
+		 		 +'<div class="form-group">'
+		 			 +'<label>Jumlah (yang dipinjamkan)</label>'
+		 			 +'<select required id="jumlah_disetujui" name="jumlah_disetujui" class="form-control">'
+		 				 +'<option value="">Pilih</option>'
+		 				 +opt
+		 			 +'</select>'
+		 		 +'</div>'
+		 	 +'</form>'
+		 	 ;
+		 	 $('.modal-body').html(formx);
+		  }
 
 			 function ambilBarang(id) {
 				 $('#lanjutkanTolak').attr('style','display:none;');
@@ -411,10 +480,6 @@
 									if(dt.status!='success') alert(dt.status);
 									else { // else
 										var idPinjam = $('#idPinjam').val();
-					 				 // alert(idPinjam);
-
-
-
 										$('#formModal').modal('hide');
 										$('#idAlert_'+idPinjam).fadeOut('slow',function(){
 											$('#idAlert_'+idPinjam).remove();
@@ -433,7 +498,7 @@
 
 					$('#lanjutkanTolak').on('click',function(){
 						$.ajax({
-							url:'notif_peminjaman_proses.php',
+							url:'penjagaProses.php',
 							cache:false,
 							data:{'action':'tolak','idPinjam':id},
 							method:'post',
