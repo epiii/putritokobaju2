@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 20, 2018 at 09:33 AM
+-- Generation Time: Aug 20, 2018 at 09:56 AM
 -- Server version: 5.7.21-0ubuntu0.16.04.1
 -- PHP Version: 7.0.28-0ubuntu0.16.04.1
 
@@ -41,6 +41,13 @@ CREATE TABLE `pinjam` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Dumping data for table `pinjam`
+--
+
+INSERT INTO `pinjam` (`idPinjam`, `kode`, `ukuran`, `jumlah`, `jumlah_disetujui`, `toko1`, `jenisBarang`, `merk`, `tglPinjam`, `toko2`, `status`) VALUES
+(23, 'JOCL21', 'M', 3, 0, 'A', 'kaos', 'tshirt', '2018-08-20 09:37:32', 'D', 'pending');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -58,7 +65,7 @@ ALTER TABLE `pinjam`
 -- AUTO_INCREMENT for table `pinjam`
 --
 ALTER TABLE `pinjam`
-  MODIFY `idPinjam` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `idPinjam` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
